@@ -5,6 +5,7 @@ import {
   MapPin, 
   Calendar, 
   Clock, 
+  ChevronLeft,
   ChevronRight, 
   Stethoscope, 
   Menu, 
@@ -24,7 +25,7 @@ import {
 
 // --- Types & Navigation ---
 
-type Page = 'home' | 'about-intro' | 'about-location' | 'doctor' | 'testimonials-stories' | 'testimonials-media' | 'schedule' | 'english';
+type Page = 'home' | 'news' | 'about-intro' | 'about-location' | 'doctor' | 'testimonials-stories' | 'testimonials-media' | 'schedule' | 'english';
 
 interface MenuItem {
   name: string;
@@ -34,7 +35,7 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { name: "最新消息", path: 'home' },
+  { name: "最新消息", path: 'news' },
   { 
     name: "關於我們", 
     children: [
@@ -535,66 +536,136 @@ const HomePage = ({ setPage }: { setPage: (p: Page) => void }) => {
 };
 
 // --- Static Page Example (Intro) ---
-const IntroPage = () => (
-  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="pt-40 pb-32 max-w-7xl mx-auto px-6">
-    <div className="grid lg:grid-cols-12 gap-20 items-center">
-      <div className="lg:col-span-5 space-y-12">
-        <div className="space-y-4">
-           <div className="w-12 h-px bg-brand-accent mb-6"></div>
-           <h2 className="text-4xl md:text-5xl font-serif text-primary-brown tracking-tight">院所介紹</h2>
-           <p className="text-brand-accent font-serif italic tracking-[0.2em] uppercase text-xs font-bold font-sans">About Our Clinic</p>
+const IntroPage = () => {
+  const images = [
+    {
+      url: "https://images.unsplash.com/photo-1629909613654-28a3a7c4da42?auto=format&fit=crop&q=80",
+      caption: "溫崇凱中醫診所：現代與傳統完美交織的醫療空間"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80",
+      caption: "極簡禪風設計，為患者提供寧靜舒適的候診環境"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1512036667332-24297621c0ad?auto=format&fit=crop&q=80",
+      caption: "精準配置的中藥調理空間，確保藥材純淨與品質"
+    }
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  return (
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="pt-40 pb-32 max-w-7xl mx-auto px-6">
+      <div className="grid lg:grid-cols-12 gap-20 items-center">
+        <div className="lg:col-span-5 space-y-12">
+          <div className="space-y-4">
+             <div className="w-12 h-px bg-brand-accent mb-6"></div>
+             <h2 className="text-4xl md:text-5xl font-serif text-primary-brown tracking-tight">院所介紹</h2>
+             <p className="text-brand-accent font-serif italic tracking-[0.2em] uppercase text-xs font-bold font-sans">About Our Clinic</p>
+          </div>
+          <div className="space-y-8 text-gray-600 font-serif leading-relaxed text-lg italic text-justify opacity-90">
+            <p>
+              溫崇凱中醫診所座落於台北核心地帶，承襲「扶原中醫」對傳統醫學的敬意，同時開創「現代針灸學」之先河。
+              我們深信醫療不應僅是消除病痛，更是喚醒身體原有的修復記憶。
+            </p>
+            <p>
+              在這裡，我們不只看診，更是與您的身體對話。每一次的施針，都是一場精準的修復導引，致力於在喧囂的都市中，為每位患者建立一座身心平衡的避風港。
+            </p>
+          </div>
+          <div className="p-12 bg-white border border-brand-accent/20 relative overflow-hidden shadow-xl">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-warm-cream/50 rounded-full -mr-16 -mt-16"></div>
+            <h4 className="text-xl font-serif text-primary-brown mb-6 flex items-center">
+              <span className="w-8 h-px bg-brand-accent mr-4"></span>
+              經營理念
+            </h4>
+            <p className="text-gray-500 font-serif leading-loose italic relative z-10">
+              「從胚胎學出發，探索人類修復的終極奧秘。」<br />
+              溫醫師深研神經學與胚胎系統，將耳穴、頭皮針與現代科學對接，提供精準且具備溫度的醫療服務。
+            </p>
+          </div>
         </div>
-        <div className="space-y-8 text-gray-600 font-serif leading-relaxed text-lg italic text-justify opacity-90">
-          <p>
-            溫崇凱中醫診所座落於台北核心地帶，承襲「扶原中醫」對傳統醫學的敬意，同時開創「現代針灸學」之先河。
-            我們深信醫療不應僅是消除病痛，更是喚醒身體原有的修復記憶。
-          </p>
-          <p>
-            在這裡，我們不只看診，更是與您的身體對話。每一次的施針，都是一場精準的修復導引，致力於在喧囂的都市中，為每位患者建立一座身心平衡的避風港。
-          </p>
-        </div>
-        <div className="p-12 bg-white border border-brand-accent/20 relative overflow-hidden shadow-xl">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-warm-cream/50 rounded-full -mr-16 -mt-16"></div>
-          <h4 className="text-xl font-serif text-primary-brown mb-6 flex items-center">
-            <span className="w-8 h-px bg-brand-accent mr-4"></span>
-            經營理念
-          </h4>
-          <p className="text-gray-500 font-serif leading-loose italic relative z-10">
-            「從胚胎學出發，探索人類修復的終極奧秘。」<br />
-            溫醫師深研神經學與胚胎系統，將耳穴、頭皮針與現代科學對接，提供精準且具備溫度的醫療服務。
-          </p>
+        <div className="lg:col-span-7 space-y-6">
+          <div className="relative group overflow-hidden shadow-2xl rounded-sm">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6 }}
+                className="aspect-[4/3] w-full relative"
+              >
+                <img 
+                  src={images[currentIndex].url} 
+                  alt="Clinic Interior" 
+                  className="w-full h-full object-cover grayscale-[0.1]" 
+                  referrerPolicy="no-referrer" 
+                />
+                
+                {/* Enfold-style Caption Overlay at the bottom */}
+                <div className="absolute inset-x-0 bottom-0 bg-black/40 backdrop-blur-md p-4 md:p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                  <p className="text-white font-serif text-sm md:text-base italic tracking-wide text-center">
+                    {images[currentIndex].caption}
+                  </p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+            
+            {/* Navigation buttons */}
+            <button 
+              onClick={prevSlide}
+              className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:text-primary-brown z-20"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button 
+              onClick={nextSlide}
+              className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:text-primary-brown z-20"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+            
+            <div className="absolute bottom-6 left-6 flex space-x-2 z-20">
+              {images.map((_, i) => (
+                <div 
+                  key={i} 
+                  className={`h-1 transition-all duration-500 rounded-full ${i === currentIndex ? 'bg-brand-accent w-8' : 'bg-white/30 w-4'}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-10 mt-10">
+            <div className="bg-white p-10 space-y-6 border border-brand-accent/10 shadow-lg hover:shadow-2xl transition-all duration-700 group/card">
+              <div className="w-14 h-14 bg-warm-cream flex items-center justify-center text-brand-accent rounded-sm mb-6 group-hover/card:bg-brand-accent group-hover/card:text-white transition-all duration-500">
+                <Sparkles className="w-7 h-7" />
+              </div>
+              <h5 className="text-2xl font-serif text-primary-brown font-bold tracking-tight">現代針灸學</h5>
+              <div className="w-8 h-px bg-brand-accent/30 group-hover/card:w-16 transition-all duration-500"></div>
+              <p className="text-gray-400 text-sm font-serif leading-relaxed italic">系統化、科學化的治療體系，超越傳統經驗醫學的侷限。</p>
+            </div>
+            <div className="bg-white p-10 space-y-6 border border-brand-accent/10 shadow-lg hover:shadow-2xl transition-all duration-700 group/card">
+              <div className="w-14 h-14 bg-warm-cream flex items-center justify-center text-brand-accent rounded-sm mb-6 group-hover/card:bg-brand-accent group-hover/card:text-white transition-all duration-500">
+                <Stethoscope className="w-7 h-7" />
+              </div>
+              <h5 className="text-2xl font-serif text-primary-brown font-bold tracking-tight">疑難雜症突破</h5>
+              <div className="w-8 h-px bg-brand-accent/30 group-hover/card:w-16 transition-all duration-500"></div>
+              <p className="text-gray-400 text-sm font-serif leading-relaxed italic">針對神經系統失調、長期免疫異常等重症，提供突破性治療方案。</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="lg:col-span-7 space-y-10">
-        <div className="relative group overflow-hidden">
-          <img 
-            src="https://images.unsplash.com/photo-1512036667332-24297621c0ad?auto=format&fit=crop&q=80" 
-            alt="Clinic Interior TCM Cabinet" 
-            className="w-full h-auto grayscale-[0.1] group-hover:scale-105 transition-transform duration-1000 shadow-2xl" 
-            referrerPolicy="no-referrer" 
-          />
-          <div className="absolute inset-0 border border-brand-accent/10 pointer-events-none"></div>
-        </div>
-        <div className="grid grid-cols-2 gap-10">
-          <div className="bg-white p-10 space-y-6 border border-brand-accent/10 shadow-lg hover:shadow-2xl transition-all duration-700">
-            <div className="w-14 h-14 bg-warm-cream flex items-center justify-center text-brand-accent rounded-sm mb-6">
-              <Sparkles className="w-7 h-7" />
-            </div>
-            <h5 className="text-2xl font-serif text-primary-brown font-bold tracking-tight">現代針灸學</h5>
-            <p className="text-gray-400 text-sm font-serif leading-relaxed italic">系統化、科學化的治療體系，超越傳統經驗醫學的侷限。</p>
-          </div>
-          <div className="bg-white p-10 space-y-6 border border-brand-accent/10 shadow-lg hover:shadow-2xl transition-all duration-700">
-            <div className="w-14 h-14 bg-warm-cream flex items-center justify-center text-brand-accent rounded-sm mb-6">
-              <Stethoscope className="w-7 h-7" />
-            </div>
-            <h5 className="text-2xl font-serif text-primary-brown font-bold tracking-tight">疑難雜症突破</h5>
-            <p className="text-gray-400 text-sm font-serif leading-relaxed italic">針對神經系統失調、長期免疫異常等重症，提供突破性治療方案。</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </motion.div>
-);
+    </motion.div>
+  );
+};
 
 const LocationPage = () => (
   <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="pt-40 pb-32 max-w-7xl mx-auto px-6">
@@ -915,6 +986,59 @@ const TestimonialsMediaPage = () => (
   </div>
 );
 
+const NewsPage = () => {
+  const newsItems = [
+    { id: 1, date: "2026.04.15", category: "診所公告", title: "五一勞動節連假門診調整通知", content: "本院於五月一日為特別門診，下午時段正常應診...", important: true },
+    { id: 2, date: "2026.04.10", category: "健康報報", title: "春季養生新觀念：耳穴調節免疫力專題報導", content: "溫院長近期受邀接受健康月刊專訪，深入淺出講解耳針與神經修復...", important: false },
+    { id: 3, date: "2026.04.02", category: "媒體專訪", title: "溫崇凱醫師：現代針灸在罕見疾病治療中的突破", content: "報導分享了多位長期受神經退化症困擾的患者，透過頭皮針治療改善現狀...", important: false },
+    { id: 4, date: "2026.03.25", category: "內部活動", title: "2026 年度學術研討會：胚胎學針灸理論之深化實踐", content: "診所同仁赴醫療中心集體研習，不斷精進醫療品質與學科理論...", important: false },
+  ];
+
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pt-40 pb-32">
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="text-center mb-24 space-y-4">
+           <h2 className="text-4xl md:text-5xl font-serif text-primary-brown font-medium">最新消息</h2>
+           <div className="w-12 h-px bg-brand-accent mx-auto"></div>
+           <p className="text-brand-accent font-serif italic tracking-[0.2em] uppercase text-xs font-bold">News & Announcements</p>
+        </div>
+
+        <div className="space-y-4">
+          {newsItems.map((item) => (
+            <motion.div 
+              key={item.id}
+              whileHover={{ x: 10 }}
+              className="bg-white border-l-2 border-brand-accent/20 hover:border-brand-accent p-8 md:p-10 shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer group"
+            >
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-4">
+                    <span className="text-xs font-mono text-gray-400 font-bold tracking-widest">{item.date}</span>
+                    <span className={`px-3 py-0.5 text-[9px] uppercase tracking-widest font-bold ${item.important ? 'bg-primary-brown text-white' : 'border border-brand-accent/20 text-brand-accent'}`}>
+                      {item.category}
+                    </span>
+                  </div>
+                  <h4 className="text-xl md:text-2xl font-serif text-primary-brown font-bold transition-colors group-hover:text-brand-accent">{item.title}</h4>
+                  <p className="text-gray-500 font-serif italic text-sm line-clamp-2">{item.content}</p>
+                </div>
+                <div className="flex justify-end">
+                   <div className="w-10 h-10 border border-brand-accent/20 rounded-full flex items-center justify-center text-brand-accent opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100">
+                     <ArrowRight className="w-4 h-4" />
+                   </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        
+        <div className="mt-20 flex justify-center">
+           <button className="px-12 py-4 border border-brand-accent/20 text-brand-accent font-serif text-xs uppercase tracking-[0.4em] hover:bg-brand-accent hover:text-white transition-all">載入更多消息</button>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const SchedulePage = () => (
   <div className="pt-40 pb-40 text-center space-y-16 bg-warm-cream/20">
     <div className="max-w-4xl mx-auto px-6 space-y-8">
@@ -1015,6 +1139,7 @@ export default function App() {
   const renderPage = () => {
     switch (page) {
       case 'home': return <HomePage setPage={setPage} />;
+      case 'news': return <NewsPage />;
       case 'about-intro': return <IntroPage />;
       case 'about-location': return <LocationPage />;
       case 'doctor': return <DoctorPage />;
